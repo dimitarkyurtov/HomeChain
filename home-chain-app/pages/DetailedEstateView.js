@@ -17,6 +17,7 @@ export default function DetailedEstateView(props) {
         getEstate()
     }, [])
 
+    
   return (
     <div>DetailedEstateView</div>
   )
