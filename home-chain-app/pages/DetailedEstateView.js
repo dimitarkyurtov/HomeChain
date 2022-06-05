@@ -12,6 +12,7 @@ export default function DetailedEstateView(props) {
             console.log(err.message)
         }
     }
+    
 
     useEffect(() =>{
         getEstate()
