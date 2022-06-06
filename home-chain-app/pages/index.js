@@ -6,6 +6,7 @@ import Head from 'next/head'
 import homeChainContract from '../blockchain/homechain'
 import Estate from './Estate';
 import Search from './Search'
+import YourEstates from './YourEstates'
 import DetailedEstateView from './DetailedEstateView'
 
 export default function Home() {
@@ -65,6 +66,16 @@ export default function Home() {
                             Estate
                         </button>
                     </div>
+                    {
+                        vmContract ? 
+                        <div className='navbar-end'>
+                            <button onClick={() => setTab('yourEstates')} class="button is-link">
+                                Your estates
+                            </button>
+                        </div> 
+                        : 
+                        null
+                    }
                     <div className='navbar-end'>
                         <button onClick={() => setTab('Search')} class="button is-link">
                             Search
@@ -85,7 +96,10 @@ export default function Home() {
                     activeTab === 'Search' ? <Search vmContract={vmContract} setActiveTab={setTab}/> : null
                 }
                 {
-                    activeTab === 'View' ? <DetailedEstateView vmContract={vmContract} eid={eid}/> : null
+                    activeTab === 'yourEstates' ? <YourEstates address={address} vmContract={vmContract} setActiveTab={setTab}/> : null
+                }
+                {
+                    activeTab === 'View' ? <DetailedEstateView web3={web3} address={address} vmContract={vmContract} eid={eid}/> : null
                 }
             </div >
         </div>
