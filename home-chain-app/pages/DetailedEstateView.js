@@ -6,13 +6,17 @@ export default function DetailedEstateView(props) {
   const [price, setPrice] = useState(0)
   const [approvedAddress, setApprovedAddress] = useState('')
   const [error, setError] = useState('')
+  const [approvedBuyer, setApprovedBuyer] = useState('')
+  const [priceForSale, setPriceForSale] = useState('0')
 
   const getEstate = async () => {
         try{
             let estate = await props.vmContract.methods.getEstateById(props.eid).call()
             setEstate(estate)
-            console.log(estate)
-            console.log(props.address)
+            let approvedBuyer = await props.vmContract.methods.getAddressOfApprovedBuyer(props.eid).call()
+            setApprovedBuyer(approvedBuyer)
+            let priceForSale = await props.vmContract.methods.getPricesSaleOfEstate(props.eid).call()
+            setPriceForSale(priceForSale)
         }catch(err){
             console.log(err.message)
         }
@@ -47,8 +51,6 @@ export default function DetailedEstateView(props) {
 
     const approveBuyer = async () =>{
       try{
-        console.log(typeof approvedAddress)
-        console.log(typeof props.address)
         await props.vmContract.methods.approveBuyer(props.eid, approvedAddress).send({
           from: props.address
         })
@@ -65,24 +67,60 @@ export default function DetailedEstateView(props) {
     const updateApprovedAddres = event => {
       setApprovedAddress(event.target.value)
     }
+
+    const announceEstateNotForSale = async () => {
+      try{
+        await props.vmContract.methods.announceEstateNotForSale(props.eid).send({
+          from: props.address
+        })
+        setError(`Estate ${props.eid} not for sale anymore`)
+      }catch(err){
+        setError(`Estate ${props.eid} not for sale failed with error ${err.message}`)
+      }
+    }
     
   return (
     <div>
       <div>DetailedEstateView</div>
-      <input onChange={updatePrice} className='input' type="number" placeholder='Price'></input>
       {
-          estate.owner !== props.address ? 
-            <button onClick={purchaseProperty} class="button is-danger">Buy</button> 
+          priceForSale === '0' ? 
+          null
+          :
+          <div>
+            Price: {priceForSale/1000000000000000000} ether
+          </div>
+      }
+      {
+          approvedBuyer === props.address && approvedBuyer !== estate.owner ? 
+          <div>
+            <input onChange={updatePrice} className='input' type="number" placeholder='Price'></input>
+            <button onClick={purchaseProperty} class="button is-danger">Buy</button>
+          </div>
             :
-            <div>
-              <button onClick={announceEstateForSale} class="button is-warning">Announce</button>
-            </div>
+          null
+      }
+      {
+          estate.owner === props.address ? 
+          <div>
+            <input onChange={updatePrice} className='input' type="number" placeholder='Price'></input>
+            <button onClick={announceEstateForSale} class="button is-warning">Announce</button>
+          </div>
+            :
+          null
       }
       {
           estate.owner === props.address ? 
             <div>
               <input onChange={updateApprovedAddres} className='input' type="type" placeholder='address'></input>
               <button onClick={approveBuyer} class="button is-link">Approve</button>
+            </div>
+            :
+            null
+      }
+      {
+          estate.owner === props.address && priceForSale !== '0' ? 
+            <div>
+              <button onClick={announceEstateNotForSale} class="button is-link">Not for sale</button>
             </div>
             :
             null
