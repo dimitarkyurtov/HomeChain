@@ -128,7 +128,7 @@ contract HomeChain
     {
         return estates[id].owner;
     }
-    
+
     function getEstates() public view returns (RealEstate[] memory)
     {
         return estates;
