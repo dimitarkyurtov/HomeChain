@@ -1,0 +1,41 @@
+.DetailedEstateView{
+    max-width: 50%;
+    margin: auto;
+    display: block;
+    padding: 10px;
+}
+
+#announce, #approve{
+    float: right;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    width: 90px;
+}
+
+.header1{
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.Text{
+    line-height: 37px;
+    margin-bottom: 20px;
+}
+
+img{
+    width: 100%;
+}
+
+p{
+    text-indent: 30px;
+    font-size: 21px;
+}
+
+.price{
+    float: right;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: -30px;
+    text-decoration: underline;
+    font-weight: bold;
+}
