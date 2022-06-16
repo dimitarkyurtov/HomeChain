@@ -18,7 +18,7 @@ export default function Home() {
     const [eid, setEid] = useState(null);
 
     const setTab = (activeTab, id) => {
-        if(id) setEid(id)
+        setEid(id)
         setActiveTab(activeTab)
     }
 

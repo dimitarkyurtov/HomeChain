@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react'
 import EstateView from './EstateView';
 
 export default function Search({ vmContract, setActiveTab }) {
+    const [allEstates, setAllEstates] = useState([]);
     const [estates, setEstates] = useState([]);
 
     const getEstates = async () => {
         try{
             let estates = await vmContract.methods.getEstates().call()
-            setEstates(estates)
+            let newEstates = estates.map((estate, key) => ({
+                ...estate,
+                id: key
+            }))
+            console.log(newEstates)
+            setEstates(newEstates)
+            setAllEstates(newEstates)
         }catch(err){
             console.log(err.message)
         }
@@ -19,46 +26,43 @@ export default function Search({ vmContract, setActiveTab }) {
 
     const filterResults = async() => {
         try{
-            let estates = await vmContract.methods.getEstates().call()
-            let newEstates = estates.map((estate, key) => ({
-                ...estate,
-                id: key
-            }))
-            let filteredEstates = newEstates
+            let filteredEstates = allEstates
+            console.log("first")
+            console.log(filteredEstates)
             let filterCity = document.getElementById("city")
             console.log(filterCity.value)
-            if(filterCity.value != "City")
+            if(filterCity.value !== "City")
             {
                 console.log("HERE1")
-                filteredEstates = newEstates.filter(estate => estate.city === filterCity.value)
+                filteredEstates = filteredEstates.filter(estate => estate.city === filterCity.value)
             }
             let filterPrice = document.getElementById("price")
             console.log(filterPrice.value)
-            if(filterPrice.value != "Price")
+            if(filterPrice.value !== "Max Price")
             {
                 console.log("HERE2")
-                filteredEstates = filteredEstates.filter(estate => estate.price === filterPrice.value)
+                filteredEstates = filteredEstates.filter(estate => +estate.price <= +filterPrice.value)
             }
             let filterFloors = document.getElementById("floors")
             console.log(filterFloors.value)
-            if(filterFloors.value != "Floors")
+            if(filterFloors.value !== "Floor")
             {
                 console.log("HERE3")
-                filteredEstates = filteredEstates.filter(estate => estate.floors === filterFloors.value)
+                filteredEstates = filteredEstates.filter(estate => estate.floor === filterFloors.value)
             }
             let filterSquares = document.getElementById("squares")
             console.log(filterSquares.value)
-            if(filterSquares.value != "Squaring")
+            if(filterSquares.value !== "Min Squaring")
             {
                 console.log("HERE4")
-                filteredEstates = filteredEstates.filter(estate => estate.squaring === filterSquares.value)
+                filteredEstates = filteredEstates.filter(estate => +estate.squaring >= +filterSquares.value)
             }
             let filterDesc = document.getElementById("description")
             console.log(filterDesc.value)
             if(filterDesc.value)
             {
                 console.log("HERE5")
-                filteredEstates = filteredEstates.filter(estate => estate.description === filterDesc.value)
+                filteredEstates = filteredEstates.filter(estate => estate.description.includes(filterDesc.value))
             }
             let filterForSale= document.getElementById("forsale")
             console.log(filterForSale.value)
@@ -99,20 +103,21 @@ export default function Search({ vmContract, setActiveTab }) {
 
             <div class="select">
                 <select name="slct" id="price">
-                    <option>Price</option>
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="300">300</option>
-                    <option value="400">400</option>
-                    <option value="500">500</option>
-                    <option value="600">600</option>
-                    <option value="700">700</option>
+                    <option>Max Price</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
                 </select>
             </div>
 
             <div class="select">
                 <select name="slct" id="floors">
-                    <option>Floors</option>
+                    <option>Floor</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -122,7 +127,9 @@ export default function Search({ vmContract, setActiveTab }) {
 
             <div class="select">
                 <select name="slct" id="squares">
-                    <option>Squaring</option>
+                    <option>Min Squaring</option>
+                    <option value="0">0</option>
+                    <option value="50">50</option>
                     <option value="99">99</option>
                     <option value="120">120</option>
                     <option value="130">130</option>
@@ -130,6 +137,7 @@ export default function Search({ vmContract, setActiveTab }) {
                     <option value="150">150</option>
                     <option value="160">160</option>
                     <option value="170">170</option>
+                    <option value="99">300</option>
                 </select>
             </div>
 
@@ -144,7 +152,7 @@ export default function Search({ vmContract, setActiveTab }) {
         <div className='container-wrapper'>
             {
                 estates.map((estate, key) => 
-                <EstateView estate={estate} id={estate.id} key={key} setActiveTab={setActiveTab}/>
+                    <EstateView estate={estate} id={estate.id} key={key} setActiveTab={setActiveTab}/>
             )
             }
         </div>
