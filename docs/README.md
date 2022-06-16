@@ -131,13 +131,15 @@ struct RealEstate {
 
 # Начин на ползване
 
-https://github.com/dimitarkyurtov/HomeChain - repo на проекта
-Навигиране до root папката на проекта след клониране
-cd .\home-chain-app\
-npm i
+Repository-то на проекта се намира [тук](https://github.com/dimitarkyurtov/HomeChain). За да го изпълните ви трябва инсталиран Node.js.
+
+Можете да си стартирате уеб приложението по следния начин:
+```bash
+npm install
 npm run dev
+```
 
-адрес на контракта в Rinkeby - 0xbDEe473c80087F6E4CABa3d6387a4295385b2c9f
-адрес на abi файлът - home-chain-app\blockchain\build\blockchain_contracts_HomeChain_sol_HomeChainProduction.abi
-адрес на смарт контракта - home-chain-app\blockchain\contracts\HomeChain.sol
-
+Данни за смарт контракта, използван от уеб приложението:
+- Address (Rinkeby): `0xbDEe473c80087F6E4CABa3d6387a4295385b2c9f`
+- ABI file: `home-chain-app/blockchain/build/blockchain_contracts_HomeChain_sol_HomeChainProduction.abi`
+- Source code: `home-chain-app\blockchain\contracts\HomeChain.sol`
