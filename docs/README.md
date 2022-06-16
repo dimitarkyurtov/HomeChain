@@ -130,6 +130,7 @@ struct RealEstate {
 да търси само имоти, които се намират на ограничено разстояние от него.
 
 # Начин на ползване
+
 https://github.com/dimitarkyurtov/HomeChain - repo на проекта
 Навигиране до root папката на проекта след клониране
 cd .\home-chain-app\
