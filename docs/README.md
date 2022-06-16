@@ -128,3 +128,15 @@ struct RealEstate {
 По фронт-енда можем да изчистим много неща визуално, като също можем да добавим
 по-разширено търсене и филтрация. Примерно можем да дадем възможност на потребителя
 да търси само имоти, които се намират на ограничено разстояние от него.
+
+# Начин на ползване
+https://github.com/dimitarkyurtov/HomeChain - repo на проекта
+Навигиране до root папката на проекта след клониране
+cd .\home-chain-app\
+npm i
+npm run dev
+
+адрес на контракта в Rinkeby - 0xbDEe473c80087F6E4CABa3d6387a4295385b2c9f
+адрес на abi файлът - home-chain-app\blockchain\build\blockchain_contracts_HomeChain_sol_HomeChainProduction.abi
+адрес на смарт контракта - home-chain-app\blockchain\contracts\HomeChain.sol
+
